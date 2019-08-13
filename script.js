@@ -1,81 +1,92 @@
-let elem = document.querySelectorAll("[class=calcButton]");
-let display = document.querySelector("[class=display]");
+
+let display = document.querySelector("[class=text]");
+let topDisplay = document.querySelector("[class=top-text]");
 let var1 = "";
 let var2 = "";
 let operand = "";
-let temp;
-let answer;
 
-
+let elem = document.querySelectorAll("[data-num]");
 elem.forEach((button) => {
-    button.addEventListener("click", () => {
-        temp = button.getAttribute("data-num").toString();
-        if(temp != "/" && temp != "-" && temp != "+" && temp != "*" && temp != "enter" && temp != "clear" && var2 == "" && operand == ""){
-        var1 += temp;
+    button.addEventListener("click", e => {
+        if (var1 != "" && var2 == "" && operand){
+            var1 = "";
+            operand = "";
+        }
+        let number = e.target.dataset.num;
+        var1 += number.toString();
         fillDisplay(var1);
-        }
-
-        if(temp != "/" && temp != "-" && temp != "+" && temp != "*" && temp != "enter" && temp != "clear" && operand != ""){
-            var2 += temp;
-            fillDisplay(var2);
-        }  
-
-        if (temp == "/" || temp == "*" || temp == "+" || temp == "-"){
-            operand = temp;
-            var2 == "1";
-        }
-
-        if (temp == "enter") {
-            if (var1 == 0 && var2 == 0 && operand == "/"){
-                fillDisplay("Cannot divide by zero");
-                displayClear();
-                return;               
-            }
-            var1 = solveEquation(var1, var2, operand);
-            fillDisplay(var1);
-            var2 = ""; 
-        }
-
-        if (temp == "clear") {
-            displayClear();
-        }
-
-
     })
 })
 
-function fillDisplay(i) {
-    display.textContent= i;
+let getOp = document.querySelectorAll("[data-op]");
+getOp.forEach((button) => {
+    button.addEventListener("click", e => {
+        operand = e.target.dataset.op;
+        topDisplay.innerText += " " + operand;
+        if(var2 == "") {
+            var2 = var1;
+            var1 = "";
+        }
+    })
+})
+
+const fillDisplay = (i) => {
+    if (var2 == "")
+    topDisplay.innerText = `${var1}`;
+    else if(var2 && operand)
+        topDisplay.innerText = `${var2} ${operand} ${var1}`
+    
+    display.innerText = i;
 }
 
-function solveEquation(a, b, op) {
+const isEquals = document.querySelector("[data-enter]")
+isEquals.addEventListener("click", e => {
+    var1 = solveEquation();
+    var2 = "";
+    fillDisplay(var1);
+})
+ 
+const isClear = document.querySelector("[data-clear]")
+isClear.addEventListener("click", e => {
+    displayClear();
+})
+
+
+const solveEquation = () => {
     let solution = 0;
-    a = parseFloat(a);
-    b = parseFloat(b);
+    if (var1 && var2 && operand){
+    b = parseFloat(var1);
+    a = parseFloat(var2);
 
-    if (op == "/") {
-        solution = a / b;
-        return solution;
+    if (b == "0")
+        return "You cannot divide by zero";
+
+    switch(operand) {
+        case "/": 
+            solution = a / b; 
+            solution = solution.toPrecision(4);
+            return solution.toString();
+        case "*": 
+            solution = a * b; 
+            solution.toPrecision(4);
+            return solution.toString();
+        case "+": 
+            solution = a + b; 
+            return solution;
+        case "-": 
+            solution = a - b;
+            return solution;   
+        }
     }
-
-    if (op == "*") {
-        solution = a * b;
-        return solution;
-    }
-
-    if (op == "+") {
-        solution = a + b;
-        return solution;
-    }
-
-    if (op == "-") {
-        solution = a - b;
-        return solution;
+    else{
+        displayClear();
+        return "";
     }
 }
 
-function displayClear() {
-    display.textContent = "";
+const displayClear = () => {
+    display.textContent = "0";
+    topDisplay.textContent = "0";
     var1 = "";
     var2 = "";
     operand = "";

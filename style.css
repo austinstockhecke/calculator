@@ -1,6 +1,18 @@
+html {
+    height: 100%;
+    -webkit-background-size: cover;
+    background-size: cover;
+    background: linear-gradient(white, gray);
+}
+
+head, body {
+    font-family: Arial;
+    padding-top: 100px;
+}
 .numContainer {
     display: inline-grid;
     grid-template-columns: auto auto auto auto;
+    grid-gap: 2px;
 }
 
 .container {
@@ -9,6 +21,9 @@
     width: 600px;
     height: 400px;
     border: 1px solid black;
+    border-radius: 15px;
+    background: white;
+
 }
 
 .display {
@@ -17,18 +32,72 @@
     width: 500px;
     height: 75px;
     border: 1px solid black;
+    border-radius: 15px;
+}
+
+.top-text {
+    font-size: 20px;
+    float: right;
+    padding-right: 10px;
 }
 
 .text {
+    font-size: 25px;
     float: right;
-    padding-top: 50px;
+    padding-right: 10px;
 }
 button {
     width: 125px;
     height: 60px;
+    font-size: 30px;
+    border-radius: 25px;
+    outline: none;
+}
+
+.calcButton {
+    border: 2px solid #0099CC;
+    color: #0099CC;
+}
+
+.calcButton:hover {
+    background-color: #008CBA;
+    color: white; 
+}
+
+.calcButton-op {
+    border: 2px solid #CC0099;
+    color: #CC0099;
+}
+
+.calcButton-op:hover {
+    background-color: #CC0099;
+    color: white;
+}
+
+.calcButton-b {
+    border: 2px solid #99CC00;
+    color: #99CC00
+}
+
+.calcButton-b:hover {
+    background-color: #99CC00;
+    color: white;
 }
 
 #num0 {
     grid-column-start: 2;
     width: 125px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    padding: 1rem;
+    background-color: gray;
+}
+a {
+    text-decoration: none;
+    color: white;
 }
